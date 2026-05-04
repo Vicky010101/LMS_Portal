@@ -2,7 +2,9 @@
 import { useTheme } from "../context/ThemeContext";
 import { getStudentProfile, updateStudentProfile, uploadProfileImage, uploadResume, setDefaultResume, deleteResume } from "../api";
 
-const API_BASE = process.env.REACT_APP_API_URL || process.env.REACT_APP_API_BASE || "http://localhost:5001/api";
+const API_BASE = process.env.REACT_APP_API_URL
+    ? process.env.REACT_APP_API_URL.replace(/\/api\/?$/, '') + '/api'
+    : (process.env.REACT_APP_API_BASE || "http://localhost:5001/api");
 const SERVER = API_BASE.replace("/api", "");
 
 const SECTIONS = [

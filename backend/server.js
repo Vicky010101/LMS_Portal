@@ -67,15 +67,25 @@ app.use('/api/lms-notifications', require('./routes/notifications'));
 app.use('/api/student-profile', require('./routes/studentProfile'));
 app.use('/api/live-classes', require('./routes/liveClasses'));
 
-// Health check
+// Health check + route list
 app.get('/', (req, res) => res.json({
   status: 'ok',
   message: 'EduLearn LMS API running',
   env: process.env.NODE_ENV || 'development',
+  routes: ['/api/auth', '/api/courses', '/api/coding', '/api/quiz', '/api/tests', '/api/live-classes'],
 }));
 
-// 404 handler
-app.use((req, res) => res.status(404).json({ msg: 'Route not found' }));
+// Debug: log all incoming requests in production to help diagnose routing issues
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path} — Origin: ${req.headers.origin || 'none'}`);
+  next();
+});
+
+// 404 handler — show the path that was not found
+app.use((req, res) => {
+  console.warn(`404: ${req.method} ${req.originalUrl}`);
+  res.status(404).json({ msg: 'Route not found', path: req.originalUrl, method: req.method });
+});
 
 // Global error handler
 app.use((err, req, res, next) => {

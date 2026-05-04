@@ -1,4 +1,11 @@
-const API_BASE = process.env.REACT_APP_API_URL || process.env.REACT_APP_API_BASE || 'http://localhost:5001/api';
+const API_BASE = process.env.REACT_APP_API_URL
+  ? process.env.REACT_APP_API_URL.replace(/\/api\/?$/, '') + '/api'
+  : (process.env.REACT_APP_API_BASE || 'http://localhost:5001/api');
+
+// Debug: log API base in development
+if (process.env.NODE_ENV !== 'production') {
+  console.log('🔗 API_BASE:', API_BASE);
+}
 
 const h = (token) => ({ 'Content-Type': 'application/json', ...(token ? { 'x-auth-token': token } : {}) });
 const t = () => localStorage.getItem('token');
