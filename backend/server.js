@@ -11,26 +11,12 @@ const app = express();
 // Trust proxy (required for Render/Heroku)
 app.set('trust proxy', 1);
 
-// CORS — allow deployed frontend + localhost for dev
-const allowedOrigins = [
-  'http://localhost:3000',
-  'https://localhost:3000',
-  'http://localhost:3001',
-  'https://localhost:3001',
-  'https://lms-portal-chi.vercel.app',
-  process.env.CLIENT_URL,
-].filter(Boolean);
-
+// CORS — uses CLIENT_URL env var (set to Vercel URL in production)
 app.use(cors({
-  origin: (origin, callback) => {
-    // Allow requests with no origin (mobile apps, curl, Postman)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) return callback(null, true);
-    callback(new Error(`CORS blocked: ${origin}`));
-  },
+  origin: process.env.CLIENT_URL || 'http://localhost:3000',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'x-auth-token', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token'],
 }));
 
 app.use(express.json({ limit: '10mb' }));
