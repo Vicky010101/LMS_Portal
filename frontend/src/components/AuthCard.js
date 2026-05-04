@@ -13,9 +13,7 @@ export default function AuthCard({ children, title, subtitle }) {
                     <h2 className="auth-title">{title}</h2>
                     {subtitle && <p className="auth-subtitle">{subtitle}</p>}
                 </div>
-                <div className="auth-body">
-                    {children}
-                </div>
+                <div className="auth-body">{children}</div>
             </div>
         </div>
     );

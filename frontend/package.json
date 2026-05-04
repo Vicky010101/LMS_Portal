@@ -3,11 +3,16 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@jitsi/react-sdk": "^1.4.4",
+    "@monaco-editor/react": "^4.7.0",
+    "axios": "^1.15.2",
     "firebase": "^12.10.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-markdown": "^10.1.0",
     "react-router-dom": "^7.13.1",
-    "react-scripts": "5.0.1"
+    "react-scripts": "5.0.1",
+    "remark-gfm": "^4.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

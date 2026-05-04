@@ -12,7 +12,7 @@ export default function ForgotPassword() {
     const [success, setSuccess] = useState(false);
     const navigate = useNavigate();
 
-    const API_BASE = process.env.REACT_APP_API_BASE || 'http://localhost:5001/api';
+    const API_BASE = process.env.REACT_APP_API_URL || process.env.REACT_APP_API_BASE || 'http://localhost:5001/api';
 
     const validateEmail = () => {
         if (!email.trim()) {
