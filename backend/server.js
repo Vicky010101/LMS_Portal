@@ -13,12 +13,12 @@ app.set('trust proxy', 1);
 
 // CORS — allow deployed frontend + localhost for dev
 const allowedOrigins = [
-  process.env.CLIENT_URL,
   'http://localhost:3000',
   'https://localhost:3000',
   'http://localhost:3001',
   'https://localhost:3001',
-  // Add your Vercel URL here after deployment
+  'https://lms-portal-chi.vercel.app',
+  process.env.CLIENT_URL,
 ].filter(Boolean);
 
 app.use(cors({
