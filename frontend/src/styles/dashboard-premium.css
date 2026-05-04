@@ -1313,12 +1313,10 @@ body {
 }
 
 @media (max-width: 768px) {
-    .lms-sidebar {
-        width: 220px;
-    }
 
+    /* Sidebar is now a mobile drawer — width/margin handled by lms.css mobile rules */
     .lms-main {
-        margin-left: 220px;
+        margin-left: 0 !important;
     }
 
     .courses-grid {
@@ -1331,12 +1329,10 @@ body {
 }
 
 @media (max-width: 640px) {
-    .lms-sidebar {
-        display: none;
-    }
 
+    /* Sidebar is a drawer — do NOT set display:none */
     .lms-main {
-        margin-left: 0;
+        margin-left: 0 !important;
     }
 
     .stats-grid {

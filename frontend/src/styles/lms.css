@@ -1,8 +1,8 @@
-/* ============================================
+﻿/* ============================================
    LMS PLATFORM - MAIN STYLES
    ============================================ */
 
-/* ── Theme Variables ── */
+/* â”€â”€ Theme Variables â”€â”€ */
 :root,
 [data-theme="light"] {
     --lms-bg: #F1F5F9;
@@ -1223,10 +1223,8 @@ body {
 }
 
 @media (max-width: 640px) {
-    .lms-sidebar {
-        display: none;
-    }
 
+    /* Sidebar is now a mobile drawer â€” do NOT hide it, transform handles visibility */
     .lms-main {
         margin-left: 0;
     }
@@ -1237,7 +1235,7 @@ body {
 }
 
 /* ============================================
-   PORTAL COURSE CARDS — PREMIUM THUMBNAILS
+   PORTAL COURSE CARDS â€” PREMIUM THUMBNAILS
    ============================================ */
 
 .portal-course-card {
@@ -1478,7 +1476,7 @@ body {
    MOBILE RESPONSIVE SIDEBAR
    ============================================ */
 
-/* Hamburger button — hidden on desktop */
+/* Hamburger button â€” hidden on desktop */
 .mobile-menu-btn {
     display: none;
     position: fixed;
@@ -1551,7 +1549,7 @@ body {
     background-clip: text;
 }
 
-/* ── RESPONSIVE BREAKPOINTS ── */
+/* â”€â”€ RESPONSIVE BREAKPOINTS â”€â”€ */
 
 @media (max-width: 768px) {
 
@@ -1607,7 +1605,7 @@ body {
         grid-template-columns: 1fr !important;
     }
 
-    /* Tables — horizontal scroll */
+    /* Tables â€” horizontal scroll */
     .card {
         overflow-x: auto;
     }
@@ -1662,5 +1660,120 @@ body {
 
     .stat-num {
         font-size: 22px !important;
+    }
+}
+
+/* ============================================
+   MOBILE SIDEBAR FIX — OVERRIDE ALL CONFLICTS
+   ============================================ */
+
+@media (max-width: 768px) {
+
+    /* Force sidebar to be a visible fixed drawer */
+    .lms-sidebar {
+        display: flex !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        height: 100vh !important;
+        width: 280px !important;
+        z-index: 9999 !important;
+        transform: translateX(-100%) !important;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        flex-direction: column !important;
+        background: var(--lms-sidebar) !important;
+        box-shadow: 6px 0 32px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    .lms-sidebar.mobile-open {
+        transform: translateX(0) !important;
+    }
+
+    /* All sidebar content must be visible */
+    .lms-sidebar .nav-btn {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        color: #94A3B8 !important;
+        width: 100% !important;
+    }
+
+    .lms-sidebar .nav-btn.active {
+        color: #fff !important;
+        background: linear-gradient(135deg, #4F46E5, #7C3AED) !important;
+    }
+
+    .lms-sidebar .logout-btn {
+        display: flex !important;
+        visibility: visible !important;
+        color: #F87171 !important;
+    }
+
+    .lms-sidebar .sidebar-brand,
+    .lms-sidebar .sidebar-user,
+    .lms-sidebar .sidebar-nav,
+    .lms-sidebar .sidebar-footer {
+        display: flex !important;
+        visibility: visible !important;
+    }
+
+    .lms-sidebar .sidebar-nav {
+        flex-direction: column !important;
+        flex: 1 !important;
+    }
+
+    .lms-sidebar .nav-section {
+        display: block !important;
+        visibility: visible !important;
+        color: #475569 !important;
+    }
+
+    .lms-sidebar .s-name,
+    .lms-sidebar .s-role,
+    .lms-sidebar .brand-name,
+    .lms-sidebar .brand-sub,
+    .lms-sidebar .nav-icon {
+        display: block !important;
+        visibility: visible !important;
+    }
+
+    /* Overlay z-index */
+    .sidebar-overlay {
+        z-index: 9998 !important;
+    }
+
+    /* Main content — no left margin, below topbar */
+    .lms-main {
+        margin-left: 0 !important;
+        padding-top: 56px !important;
+    }
+
+    /* Show mobile UI elements */
+    .mobile-menu-btn {
+        display: flex !important;
+    }
+
+    .mobile-topbar {
+        display: flex !important;
+        z-index: 100 !important;
+    }
+}
+
+@media (max-width: 640px) {
+
+    /* Same fix for smaller screens */
+    .lms-sidebar {
+        display: flex !important;
+        transform: translateX(-100%) !important;
+    }
+
+    .lms-sidebar.mobile-open {
+        transform: translateX(0) !important;
+    }
+
+    .lms-main {
+        margin-left: 0 !important;
     }
 }
