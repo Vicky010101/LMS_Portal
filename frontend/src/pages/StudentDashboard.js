@@ -77,11 +77,26 @@ export default function StudentDashboard({ user, onLogout }) {
   const enrolledIds = enrolled.map(e => e.courseId?._id);
   const avgProgress = enrolled.length > 0 ? Math.round(enrolled.reduce((s, e) => s + (e.completionPercent || 0), 0) / enrolled.length) : 0;
 
+  // Mobile sidebar state
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const closeSidebar = () => setSidebarOpen(false);
+  const handleNavClick = (tabId) => { setTab(tabId); setActiveCourse(null); setActiveQuiz(null); setQuizResult(null); closeSidebar(); };
+
   return (
     <div className="lms-layout">
       {toast && <div className={`toast toast-${toast.type}`}>{toast.msg}</div>}
 
-      <aside className="lms-sidebar">
+      {/* Mobile overlay */}
+      <div className={`sidebar-overlay ${sidebarOpen ? 'mobile-open' : ''}`} onClick={closeSidebar} />
+
+      {/* Mobile top bar */}
+      <div className="mobile-topbar">
+        <button className="mobile-menu-btn" style={{ position: 'static', display: 'flex' }} onClick={() => setSidebarOpen(o => !o)}>☰</button>
+        <span className="mobile-topbar-title">EduLearn</span>
+        <NotificationBell onNavigate={(tabId) => { setTab(tabId); closeSidebar(); }} />
+      </div>
+
+      <aside className={`lms-sidebar ${sidebarOpen ? 'mobile-open' : ''}`}>
         <div className="sidebar-brand">
           <span className="brand-logo">🎓</span>
           <div><div className="brand-name">EduLearn</div><div className="brand-sub">LMS Platform</div></div>
@@ -89,18 +104,18 @@ export default function StudentDashboard({ user, onLogout }) {
         <div className="sidebar-user">
           <div className="s-avatar">{user?.name?.[0]?.toUpperCase()}</div>
           <div style={{ flex: 1 }}><div className="s-name">{user?.name}</div><div className="s-role">Student</div></div>
-          <NotificationBell onNavigate={(tabId) => setTab(tabId)} />
+          <NotificationBell onNavigate={(tabId) => { setTab(tabId); closeSidebar(); }} />
         </div>
         <nav className="sidebar-nav">
           <div className="nav-section">Main Menu</div>
           {TABS.map(t => (
-            <button key={t.id} className={`nav-btn ${tab === t.id ? 'active' : ''}`} onClick={() => { setTab(t.id); setActiveCourse(null); setActiveQuiz(null); setQuizResult(null); }}>
+            <button key={t.id} className={`nav-btn ${tab === t.id ? 'active' : ''}`} onClick={() => handleNavClick(t.id)}>
               <span className="nav-icon">{t.icon}</span>{t.label}
             </button>
           ))}
         </nav>
         <div className="sidebar-footer">
-          <button className="logout-btn" onClick={onLogout}><span>🚪</span> Logout</button>
+          <button className="logout-btn" onClick={() => { closeSidebar(); onLogout(); }}><span>🚪</span> Logout</button>
         </div>
       </aside>
 

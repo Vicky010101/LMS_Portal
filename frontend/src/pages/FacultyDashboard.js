@@ -27,6 +27,9 @@ const EMPTY_PROBLEM = { title: '', description: '', difficulty: 'Easy', category
 
 export default function FacultyDashboard({ user, onLogout }) {
     const [tab, setTab] = useState('home');
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const closeSidebar = () => setSidebarOpen(false);
+    const handleNavClick = (tabId) => { setTab(tabId); setSelectedCourse(null); closeSidebar(); };
     const [courses, setCourses] = useState([]);
     const [problems, setProblems] = useState([]);
     const [quizzes, setQuizzes] = useState([]);
@@ -90,7 +93,17 @@ export default function FacultyDashboard({ user, onLogout }) {
         <div className="lms-layout">
             {toast && <div className={`toast toast-${toast.type}`}>{toast.msg}</div>}
 
-            <aside className="lms-sidebar">
+            {/* Mobile overlay */}
+            <div className={`sidebar-overlay ${sidebarOpen ? 'mobile-open' : ''}`} onClick={closeSidebar} />
+
+            {/* Mobile top bar */}
+            <div className="mobile-topbar">
+                <button className="mobile-menu-btn" style={{ position: 'static', display: 'flex' }} onClick={() => setSidebarOpen(o => !o)}>☰</button>
+                <span className="mobile-topbar-title">EduLearn</span>
+                <div style={{ width: 36 }} />
+            </div>
+
+            <aside className={`lms-sidebar ${sidebarOpen ? 'mobile-open' : ''}`}>
                 <div className="sidebar-brand">
                     <span className="brand-logo">🎓</span>
                     <div><div className="brand-name">EduLearn</div><div className="brand-sub">Faculty Portal</div></div>
@@ -102,13 +115,13 @@ export default function FacultyDashboard({ user, onLogout }) {
                 <nav className="sidebar-nav">
                     <div className="nav-section">Faculty Menu</div>
                     {TABS.map(t => (
-                        <button key={t.id} className={`nav-btn ${tab === t.id ? 'active' : ''}`} onClick={() => { setTab(t.id); setSelectedCourse(null); }}>
+                        <button key={t.id} className={`nav-btn ${tab === t.id ? 'active' : ''}`} onClick={() => handleNavClick(t.id)}>
                             <span className="nav-icon">{t.icon}</span>{t.label}
                         </button>
                     ))}
                 </nav>
                 <div className="sidebar-footer">
-                    <button className="logout-btn" onClick={onLogout}><span>🚪</span> Logout</button>
+                    <button className="logout-btn" onClick={() => { closeSidebar(); onLogout(); }}><span>🚪</span> Logout</button>
                 </div>
             </aside>
 
